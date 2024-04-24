@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><title>
+    
+    SpringBoot&#43;Vue1 | 
+    
+    Welcome to Aloogy的小世界
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="http://localhost:1313/posts/springboot&#43;vue1/" />
+<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+
+
+<meta name="description" content="
+    Spring boot&#43;vue全栈开发[1] Java EE企业级框架：SpringBoot&#43;MyBatisPlus（用spring boot开发web应用） web前端核心框架：Vue&#43;ElementUI（可以实现前后端分离开发） 公共云部署：前后端项目集成打包与部署 web技术基础 市面上的软件主要分为两种：
+BS（Browser/Sever,浏览器/服务器架构模式）==更火！== 因此，Browser/Server模式开始流行，简称BS架构， ==B/S架构的主要特点是分散性高、维护方便、开发简单、共享性高、总拥有成本低。== CS（Client/Server,客户端/服务器架构模式） C/S架构主要特点是交互性强，具有安全访问模式，网络流量低，响应速度快。 客户端负责绝大数的事情。因为客户端负责大多数业务逻辑和UI演示，所以也被称为胖客户端 ，C/S结构的软件需要针对不同的操作系统开发不同版本的软件。 随着互联网的兴起，CS架构不适合Web，最大的原因是Web应用程序的修改和升级非常迅速，而CS架构需要每个客户端逐个升级桌面App。 BS架构的原理 在BS架构下，客户端只需要浏览器，应用程序的逻辑和数据都存储在服务器端。浏览器只需要请求服务器，获取Web页面，并把Web页面展示给用户即可。
+后端开发指：web服务器开发&#43;数据库服务器开发
+maven maven是一个项目管理工具，可以对Java项目进行自动化依赖管理和自动化的构建。
+maven的功能 项目构建：帮我们自动下载依赖（pom.xml[核心的配置文件]），提供标准的、跨平台的自动化构建项目的方式 依赖管理：方便快捷的管理项目依赖的资源（jar包），避免资源间的版本冲突 统一开发结果：提供标准的，统一的项目开发结构（Java代码放Java目录，测试放test目录，webapp放web的项目） maven仓库 运行maven项目时，maven所需要的任何构件都是从本地仓库获取，如果本地仓库没有的话，它会尝试从远程仓库下载构件至本地仓库
+springboot介绍（需要有Java基础） Spring Boot是由Pivotal团队提供的基于Spring的全新框架，旨在简化Spring应用（有很多个pom文件）的初始搭建和开发过程。 Spring Boot是所有基于Spring开发项目的起点 Spring Boot就是尽可能地简化应用开发的门槛，让应用开发、测试、部署变得更加简单。 1. springboot特点： 遵循“约定优于配置”的原则，只需要很少的配置或使用默认的配置。 能够使用内嵌的Tomcat、Jetty服务器，不需要部署war文件；（具有内嵌的服务器） 提供定制化的启动器Starters，简化Maven配置，，不用写这么多依赖配置，开箱即用。 ==纯Java配置，没有代码生成，也不需要XML配置。== 提供了生产级的服务监控方案，如安全监控、应用监控、健康检测等。 2. 创建项目————填写项目信息 Group:填入公司域名
+Artifact:项目名称
+package com.example.demo.controller; import org.springframework.web.bind.annotation.GetMapping; import org.springframework.web.bind.annotation.RestController; @RestController//接受客户端信息并返回信息 public class HelloController { //http://www.baidu.com/s/xx //本机域名：http://localhost:8080/hello @GetMapping(&#34;/hello&#34;) public String hello() { return &#34;Hello World!&#34;; } } //控制器 3.
+    "
+/>
+<meta property="og:description" content="
+    Spring boot&#43;vue全栈开发[1] Java EE企业级框架：SpringBoot&#43;MyBatisPlus（用spring boot开发web应用） web前端核心框架：Vue&#43;ElementUI（可以实现前后端分离开发） 公共云部署：前后端项目集成打包与部署 web技术基础 市面上的软件主要分为两种：
+BS（Browser/Sever,浏览器/服务器架构模式）==更火！== 因此，Browser/Server模式开始流行，简称BS架构， ==B/S架构的主要特点是分散性高、维护方便、开发简单、共享性高、总拥有成本低。== CS（Client/Server,客户端/服务器架构模式） C/S架构主要特点是交互性强，具有安全访问模式，网络流量低，响应速度快。 客户端负责绝大数的事情。因为客户端负责大多数业务逻辑和UI演示，所以也被称为胖客户端 ，C/S结构的软件需要针对不同的操作系统开发不同版本的软件。 随着互联网的兴起，CS架构不适合Web，最大的原因是Web应用程序的修改和升级非常迅速，而CS架构需要每个客户端逐个升级桌面App。 BS架构的原理 在BS架构下，客户端只需要浏览器，应用程序的逻辑和数据都存储在服务器端。浏览器只需要请求服务器，获取Web页面，并把Web页面展示给用户即可。
+后端开发指：web服务器开发&#43;数据库服务器开发
+maven maven是一个项目管理工具，可以对Java项目进行自动化依赖管理和自动化的构建。
+maven的功能 项目构建：帮我们自动下载依赖（pom.xml[核心的配置文件]），提供标准的、跨平台的自动化构建项目的方式 依赖管理：方便快捷的管理项目依赖的资源（jar包），避免资源间的版本冲突 统一开发结果：提供标准的，统一的项目开发结构（Java代码放Java目录，测试放test目录，webapp放web的项目） maven仓库 运行maven项目时，maven所需要的任何构件都是从本地仓库获取，如果本地仓库没有的话，它会尝试从远程仓库下载构件至本地仓库
+springboot介绍（需要有Java基础） Spring Boot是由Pivotal团队提供的基于Spring的全新框架，旨在简化Spring应用（有很多个pom文件）的初始搭建和开发过程。 Spring Boot是所有基于Spring开发项目的起点 Spring Boot就是尽可能地简化应用开发的门槛，让应用开发、测试、部署变得更加简单。 1. springboot特点： 遵循“约定优于配置”的原则，只需要很少的配置或使用默认的配置。 能够使用内嵌的Tomcat、Jetty服务器，不需要部署war文件；（具有内嵌的服务器） 提供定制化的启动器Starters，简化Maven配置，，不用写这么多依赖配置，开箱即用。 ==纯Java配置，没有代码生成，也不需要XML配置。== 提供了生产级的服务监控方案，如安全监控、应用监控、健康检测等。 2. 创建项目————填写项目信息 Group:填入公司域名
+Artifact:项目名称
+package com.example.demo.controller; import org.springframework.web.bind.annotation.GetMapping; import org.springframework.web.bind.annotation.RestController; @RestController//接受客户端信息并返回信息 public class HelloController { //http://www.baidu.com/s/xx //本机域名：http://localhost:8080/hello @GetMapping(&#34;/hello&#34;) public String hello() { return &#34;Hello World!&#34;; } } //控制器 3.
+    " 
+/>
+
+
+
+
+<meta property="og:title" content="SpringBoot&#43;Vue1" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/springboot&#43;vue1/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-04-23T23:47:47+08:00" />
+<meta property="article:modified_time" content="2024-04-23T23:47:47+08:00" />
+
+
+
+
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="SpringBoot&#43;Vue1">
+<meta name="twitter:description" content="Spring boot&#43;vue全栈开发[1] Java EE企业级框架：SpringBoot&#43;MyBatisPlus（用spring boot开发web应用） web前端核心框架：Vue&#43;ElementUI（可以实现前后端分离开发） 公共云部署：前后端项目集成打包与部署 web技术基础 市面上的软件主要分为两种：
+BS（Browser/Sever,浏览器/服务器架构模式）==更火！== 因此，Browser/Server模式开始流行，简称BS架构， ==B/S架构的主要特点是分散性高、维护方便、开发简单、共享性高、总拥有成本低。== CS（Client/Server,客户端/服务器架构模式） C/S架构主要特点是交互性强，具有安全访问模式，网络流量低，响应速度快。 客户端负责绝大数的事情。因为客户端负责大多数业务逻辑和UI演示，所以也被称为胖客户端 ，C/S结构的软件需要针对不同的操作系统开发不同版本的软件。 随着互联网的兴起，CS架构不适合Web，最大的原因是Web应用程序的修改和升级非常迅速，而CS架构需要每个客户端逐个升级桌面App。 BS架构的原理 在BS架构下，客户端只需要浏览器，应用程序的逻辑和数据都存储在服务器端。浏览器只需要请求服务器，获取Web页面，并把Web页面展示给用户即可。
+后端开发指：web服务器开发&#43;数据库服务器开发
+maven maven是一个项目管理工具，可以对Java项目进行自动化依赖管理和自动化的构建。
+maven的功能 项目构建：帮我们自动下载依赖（pom.xml[核心的配置文件]），提供标准的、跨平台的自动化构建项目的方式 依赖管理：方便快捷的管理项目依赖的资源（jar包），避免资源间的版本冲突 统一开发结果：提供标准的，统一的项目开发结构（Java代码放Java目录，测试放test目录，webapp放web的项目） maven仓库 运行maven项目时，maven所需要的任何构件都是从本地仓库获取，如果本地仓库没有的话，它会尝试从远程仓库下载构件至本地仓库
+springboot介绍（需要有Java基础） Spring Boot是由Pivotal团队提供的基于Spring的全新框架，旨在简化Spring应用（有很多个pom文件）的初始搭建和开发过程。 Spring Boot是所有基于Spring开发项目的起点 Spring Boot就是尽可能地简化应用开发的门槛，让应用开发、测试、部署变得更加简单。 1. springboot特点： 遵循“约定优于配置”的原则，只需要很少的配置或使用默认的配置。 能够使用内嵌的Tomcat、Jetty服务器，不需要部署war文件；（具有内嵌的服务器） 提供定制化的启动器Starters，简化Maven配置，，不用写这么多依赖配置，开箱即用。 ==纯Java配置，没有代码生成，也不需要XML配置。== 提供了生产级的服务监控方案，如安全监控、应用监控、健康检测等。 2. 创建项目————填写项目信息 Group:填入公司域名
+Artifact:项目名称
+package com.example.demo.controller; import org.springframework.web.bind.annotation.GetMapping; import org.springframework.web.bind.annotation.RestController; @RestController//接受客户端信息并返回信息 public class HelloController { //http://www.baidu.com/s/xx //本机域名：http://localhost:8080/hello @GetMapping(&#34;/hello&#34;) public String hello() { return &#34;Hello World!&#34;; } } //控制器 3.">
+
+
+  <meta itemprop="name" content="SpringBoot&#43;Vue1">
+  <meta itemprop="description" content="Spring boot&#43;vue全栈开发[1] Java EE企业级框架：SpringBoot&#43;MyBatisPlus（用spring boot开发web应用） web前端核心框架：Vue&#43;ElementUI（可以实现前后端分离开发） 公共云部署：前后端项目集成打包与部署 web技术基础 市面上的软件主要分为两种：
+BS（Browser/Sever,浏览器/服务器架构模式）==更火！== 因此，Browser/Server模式开始流行，简称BS架构， ==B/S架构的主要特点是分散性高、维护方便、开发简单、共享性高、总拥有成本低。== CS（Client/Server,客户端/服务器架构模式） C/S架构主要特点是交互性强，具有安全访问模式，网络流量低，响应速度快。 客户端负责绝大数的事情。因为客户端负责大多数业务逻辑和UI演示，所以也被称为胖客户端 ，C/S结构的软件需要针对不同的操作系统开发不同版本的软件。 随着互联网的兴起，CS架构不适合Web，最大的原因是Web应用程序的修改和升级非常迅速，而CS架构需要每个客户端逐个升级桌面App。 BS架构的原理 在BS架构下，客户端只需要浏览器，应用程序的逻辑和数据都存储在服务器端。浏览器只需要请求服务器，获取Web页面，并把Web页面展示给用户即可。
+后端开发指：web服务器开发&#43;数据库服务器开发
+maven maven是一个项目管理工具，可以对Java项目进行自动化依赖管理和自动化的构建。
+maven的功能 项目构建：帮我们自动下载依赖（pom.xml[核心的配置文件]），提供标准的、跨平台的自动化构建项目的方式 依赖管理：方便快捷的管理项目依赖的资源（jar包），避免资源间的版本冲突 统一开发结果：提供标准的，统一的项目开发结构（Java代码放Java目录，测试放test目录，webapp放web的项目） maven仓库 运行maven项目时，maven所需要的任何构件都是从本地仓库获取，如果本地仓库没有的话，它会尝试从远程仓库下载构件至本地仓库
+springboot介绍（需要有Java基础） Spring Boot是由Pivotal团队提供的基于Spring的全新框架，旨在简化Spring应用（有很多个pom文件）的初始搭建和开发过程。 Spring Boot是所有基于Spring开发项目的起点 Spring Boot就是尽可能地简化应用开发的门槛，让应用开发、测试、部署变得更加简单。 1. springboot特点： 遵循“约定优于配置”的原则，只需要很少的配置或使用默认的配置。 能够使用内嵌的Tomcat、Jetty服务器，不需要部署war文件；（具有内嵌的服务器） 提供定制化的启动器Starters，简化Maven配置，，不用写这么多依赖配置，开箱即用。 ==纯Java配置，没有代码生成，也不需要XML配置。== 提供了生产级的服务监控方案，如安全监控、应用监控、健康检测等。 2. 创建项目————填写项目信息 Group:填入公司域名
+Artifact:项目名称
+package com.example.demo.controller; import org.springframework.web.bind.annotation.GetMapping; import org.springframework.web.bind.annotation.RestController; @RestController//接受客户端信息并返回信息 public class HelloController { //http://www.baidu.com/s/xx //本机域名：http://localhost:8080/hello @GetMapping(&#34;/hello&#34;) public String hello() { return &#34;Hello World!&#34;; } } //控制器 3.">
+  <meta itemprop="datePublished" content="2024-04-23T23:47:47+08:00">
+  <meta itemprop="dateModified" content="2024-04-23T23:47:47+08:00">
+  <meta itemprop="wordCount" content="487">
+
+
+
+
+<link rel="stylesheet" href="/main.min.css">
+
+
+
+
+
+<script src="/bundle.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><a href="/">Welcome to Aloogy的小世界</a></h2>
+        </div>
+
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+        </ul>
+
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">SpringBoot&#43;Vue1</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Apr 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    25 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <h1 id="spring-bootvue全栈开发1">Spring boot+vue全栈开发[1]</h1>
+<ul>
+<li>Java EE企业级框架：SpringBoot+MyBatisPlus（用spring boot开发web应用）</li>
+<li>web前端核心框架：Vue+ElementUI（可以实现前后端分离开发）</li>
+<li>公共云部署：前后端项目集成打包与部署</li>
+</ul>
+<h2 id="web技术基础">web技术基础</h2>
+<blockquote>
+<p>市面上的软件主要分为两种：</p>
+<ul>
+<li>BS（Browser/Sever,浏览器/服务器架构模式）==更火！==
+<ol>
+<li>因此，Browser/Server模式开始流行，简称BS架构，
+==B/S架构的主要特点是分散性高、维护方便、开发简单、共享性高、总拥有成本低。==</li>
+</ol>
+</li>
+<li>CS（Client/Server,客户端/服务器架构模式）
+<ol>
+<li>C/S架构主要特点是交互性强，具有安全访问模式，网络流量低，响应速度快。</li>
+<li>客户端负责绝大数的事情。因为客户端负责大多数业务逻辑和UI演示，所以也被称为胖客户端 ，C/S结构的软件需要针对不同的操作系统开发不同版本的软件。</li>
+<li>随着互联网的兴起，CS架构不适合Web，最大的原因是Web应用程序的修改和升级非常迅速，而CS架构需要每个客户端逐个升级桌面App。</li>
+</ol>
+</li>
+</ul>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/Thobian/typora-image/master/demo/202404/23/234813-15515.png" alt="image-20240415193139401"></p>
+<h3 id="bs架构的原理">BS架构的原理</h3>
+<blockquote>
+<p>在BS架构下，客户端只需要浏览器，应用程序的逻辑和数据都存储在服务器端。浏览器只需要请求服务器，获取Web页面，并把Web页面展示给用户即可。</p>
+</blockquote>
+<p><img src="C:%5CUsers%5CASUS%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20240415193238794.png" alt="image-20240415193238794"></p>
+<p>后端开发指：web服务器开发+数据库服务器开发</p>
+<h2 id="maven">maven</h2>
+<p>maven是一个项目管理工具，可以对Java项目进行自动化依赖管理和自动化的构建。</p>
+<p><img src="C:%5CUsers%5CASUS%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20240415191802535.png" alt="image-20240415191802535"></p>
+<h3 id="maven的功能">maven的功能</h3>
+<ol>
+<li>项目构建：帮我们自动下载依赖（pom.xml[核心的配置文件]），提供标准的、跨平台的自动化构建项目的方式</li>
+<li>依赖管理：方便快捷的管理项目依赖的资源（jar包），避免资源间的版本冲突</li>
+<li>统一开发结果：提供标准的，统一的项目开发结构（Java代码放Java目录，测试放test目录，webapp放web的项目）</li>
+</ol>
+<h3 id="maven仓库">maven仓库</h3>
+<p>运行maven项目时，maven所需要的任何构件都是从本地仓库获取，如果本地仓库没有的话，它会尝试从远程仓库下载构件至本地仓库</p>
+<p><img src="https://raw.githubusercontent.com/Thobian/typora-image/master/demo/202404/23/234815-279193.png" alt="image-20240415193019538"></p>
+<p><img src="https://raw.githubusercontent.com/Thobian/typora-image/master/demo/202404/23/234817-458742.png" alt="image-20240415194252555"></p>
+<h2 id="springboot介绍需要有java基础">springboot介绍（需要有Java基础）</h2>
+<ul>
+<li>Spring Boot是由Pivotal团队提供的基于Spring的全新框架，旨在简化Spring应用（有很多个pom文件）的初始搭建和开发过程。</li>
+<li>Spring Boot是所有基于Spring开发项目的起点</li>
+<li>Spring Boot就是尽可能地简化应用开发的门槛，让应用开发、测试、部署变得更加简单。</li>
+</ul>
+<h3 id="1-springboot特点">1. springboot特点：</h3>
+<ol>
+<li>遵循“约定优于配置”的原则，只需要很少的配置或使用默认的配置。</li>
+<li>能够使用内嵌的Tomcat、Jetty服务器，不需要部署war文件；（具有内嵌的服务器）</li>
+<li>提供定制化的启动器Starters，简化Maven配置，，不用写这么多依赖配置，开箱即用。</li>
+<li>==纯Java配置，没有代码生成，也不需要XML配置。==</li>
+<li>提供了生产级的服务监控方案，如安全监控、应用监控、健康检测等。</li>
+</ol>
+<h3 id="2-创建项目填写项目信息">2. 创建项目————填写项目信息</h3>
+<ul>
+<li>
+<p>Group:填入公司域名</p>
+</li>
+<li>
+<p>Artifact:项目名称</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.example.demo.controller;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.web.bind.annotation.GetMapping;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RestController;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span><span style="color:#75715e">//接受客户端信息并返回信息</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloController</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//http://www.baidu.com/s/xx</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//本机域名：http://localhost:8080/hello</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/hello&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">hello</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Hello World!&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//控制器</span>
+</span></span></code></pre></div></li>
+</ul>
+<p><img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20240415201027051.png" alt="image-20240415201027051"></p>
+<p><img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20240415201109008.png" alt="image-20240415201109008"></p>
+<h3 id="3-开发项目的热部署修改代码自动重启项目编译">3. 开发项目的热部署（修改代码，自动重启项目编译）</h3>
+<p>减少重启时间</p>
+<ul>
+<li>
+<p>在实际的项目开发调试过程中会频繁地修改后台类文件，导致需要重新编译重新启动，整个过程非常麻烦，影响开发效率</p>
+</li>
+<li>
+<p>Spring Boot提供了spring-boot-devtools组件，使得无须手动重启SpringBoot应用即可重新编译、启动项目，大大缩短编译启动的时间。</p>
+</li>
+<li>
+<p>devtools会监听classpath下的文件变动，触发Restart类加载器重新加载该类从而实现类文件和属性文件的热部署。</p>
+</li>
+<li>
+<p>并不是所有的更改都需要重启应用(如静态资源、视图模板)，可以通过设置spring.devtools.restart.exclude属性来指定一些文件或目录的修改不用重启应用</p>
+<pre tabindex="0"><code class="language-jav" data-lang="jav">  &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+            &lt;optional&gt;true&lt;/optional&gt;&gt;
+        &lt;/dependency&gt;
+</code></pre></li>
+</ul>
+<p><img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20240415202029350.png" alt="image-20240415202029350"></p>
+<p><img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20240415202220260.png" alt="image-20240415202220260"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>server.<span style="color:#a6e22e">port</span><span style="color:#f92672">=</span>8080
+</span></span><span style="display:flex;"><span>spring.<span style="color:#a6e22e">devtools</span>.<span style="color:#a6e22e">restart</span>.<span style="color:#a6e22e">enabled</span><span style="color:#f92672">=</span><span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>spring.<span style="color:#a6e22e">devtools</span>.<span style="color:#a6e22e">restart</span>.<span style="color:#a6e22e">additional</span><span style="color:#f92672">-</span>paths<span style="color:#f92672">=</span>src<span style="color:#f92672">/</span>main<span style="color:#f92672">/</span>java
+</span></span></code></pre></div><h4 id="开发环境热部署">开发环境热部署</h4>
+<ol>
+<li>如果使用了Eclipse，那么在修改完代码并保存之后，项目将自动编译并触发重启，而如果使用了IntelliJIDEA，还需要配置项目自动编译。</li>
+<li>打开Settings页面，在左边的菜单栏依次找到Build,Execution,Deployment→Compile,勾选Build project automatically按Ctrl+Shift+Alt+/快捷键调出Maintenance页面，单击Registry，勾选compiler.automake.allow.when.app.running复选框。</li>
+<li>做完这两步配置之后，若开发者再次在IntelliJIDEA中修改代码，则项目会自动重启。</li>
+</ol>
+<h2 id="web入门">web入门</h2>
+<ul>
+<li>Spring Boot将传统Web开发的<!-- raw HTML omitted -->mvc、json、tomcat<!-- raw HTML omitted -->等框架整合，提供了spring-boot-starter-web组件，简化了Web应用配置。</li>
+<li>创建SpringBoot项目勾选Spring Web选项后，会自动将spring-boot-starter-web组件加入到项目中。
+spring-boot-starter-web启动器主要包括<!-- raw HTML omitted -->web、webmvc、ison、tomcat<!-- raw HTML omitted -->等基础依赖组件，作用是提供Web开发场景所需的所有底层依赖。</li>
+<li><!-- raw HTML omitted -->webmvc为Web开发的基础框架，json为JSON数据解析组件，tomcat为自带的容器依赖。<!-- raw HTML omitted --></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//启动器 </span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>dependency<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;</span>groupId<span style="color:#f92672">&gt;</span>org.<span style="color:#a6e22e">springframework</span>.<span style="color:#a6e22e">boot</span><span style="color:#f92672">&lt;/</span>groupId<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;</span>artifactId<span style="color:#f92672">&gt;</span>spring<span style="color:#f92672">-</span>boot<span style="color:#f92672">-</span>starter<span style="color:#f92672">-</span>web<span style="color:#f92672">&lt;/</span>artifactId<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/</span>dependency<span style="color:#f92672">&gt;</span>
+</span></span></code></pre></div><h3 id="1-控制器">1. 控制器</h3>
+<p>mvc的设计模式</p>
+<p><img src="https://raw.githubusercontent.com/Thobian/typora-image/master/demo/202404/23/234819-919185.png" alt="image-20240416105444797"></p>
+<blockquote>
+<p>view(视图)显示数据 html的页面</p>
+<p>Model(封装、储存数据)</p>
+<p>Controller（负责协调和控制）接受用户请求</p>
+</blockquote>
+<ol>
+<li>Spring Boot提供了@Controller和@RestController两种注解来标识此类负责接收和处理HTTP请求。（用于创建控制器）</li>
+<li>如果请求的是==页面和数据，使用@Controller注解==即可;如果只是==请求数据==则可以使用==@RestController==注解。</li>
+</ol>
+<h4 id="controller">@Controller</h4>
+<ol>
+<li>示例中返回了hello页面和name的数据，在前端页面中可以通过${name}参数获取后台返回的数据并显示。</li>
+<li>@Controller通常与Thymeleaf模板引擎结合使用。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Controllerpublic</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Hellocontroller</span> {
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/hello&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">index</span>(ModelMap map){
+</span></span><span style="display:flex;"><span>        map.<span style="color:#a6e22e">addAttribute</span>( attributeName: <span style="color:#e6db74">&#34;name&#34;</span>, attributeValue: <span style="color:#e6db74">&#34;zhangsan&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span>;<span style="color:#75715e">//返回页面</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="restcontroller">@RestController</h4>
+<ul>
+<li>默认情况下，@RestController注解会将返回的==对象数据==转换为==JSON格式。==</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Hellocontroller</span> {
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#960050;background-color:#1e0010">©</span><span style="color:#f92672">~</span><span style="color:#e6db74">&#34;/user&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> User <span style="color:#a6e22e">getUser</span>(){
+</span></span><span style="display:flex;"><span>      User user <span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> User();
+</span></span><span style="display:flex;"><span>      user.<span style="color:#a6e22e">setUsername</span>(<span style="color:#e6db74">&#34;zhangsan&#34;</span>);
+</span></span><span style="display:flex;"><span>      user.<span style="color:#a6e22e">setPassword</span>(<span style="color:#e6db74">&#34;123&#34;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> user;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="2路由映射控制器接受前端请求">2.路由映射（控制器接受前端请求）</h3>
+<ol>
+<li>
+<p>@RequestMapping注解主要负责URL的路由映射。它可以添加在Controller类或者具体的方法上。</p>
+</li>
+<li>
+<p>如果添加在Controller类上，则这个Controller中的所有路由映射都将会加上此映射规则，如果添加在方法上，则只对当前方法生效。</p>
+</li>
+</ol>
+<h4 id="requestmapping">@RequestMapping</h4>
+<p>注解包含很多属性参数来定义HTTP的请求映射规则,常用的属性参数如下:</p>
+<ul>
+<li>
+<p>value:请求URL的路径，支持URL模板、正则表达式 （配置路径）</p>
+</li>
+<li>
+<p>method: HTTP请求方法、规定前端请求方式</p>
+</li>
+<li>
+<p>consumes:请求的媒体类型(Content-Type)，如application/json</p>
+</li>
+<li>
+<p>produces: 响应的媒体类型params，headers: 请求的参数及请求头的值</p>
+<ol start="3">
+<li>
+<p>@RequestMapping的value属性用于匹配URL映射，value支持简单表达式@RequestMapping(&quot;/user&quot;)</p>
+</li>
+<li>
+<p>@RequestMapping支持使用通配符匹配URL，用于统一映射某些URL规则类似的请求:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/getJson/*.json&#34;</span>)<span style="color:#960050;background-color:#1e0010">，</span>
+</span></span><span style="display:flex;"><span> 当在浏览器中请求<span style="color:#f92672">/</span>getJson<span style="color:#f92672">/</span>a.<span style="color:#a6e22e">json或者</span><span style="color:#f92672">/</span>qetJson<span style="color:#f92672">/</span>b.<span style="color:#a6e22e">json时都会匹配到后台的Json方法</span>
+</span></span></code></pre></div></li>
+<li>
+<p>@RequestMapping的通配符匹配非常简单实用，支持 “*” “**“ ”？“等通配符</p>
+</li>
+<li>
+<p>符号 ** 匹配任意字符（单词）,符号 ** 匹配任意路径，符号“?”匹配单个字符。*</p>
+</li>
+<li>
+<p>有通配符的优先级低于没有通配符的，比如/user/add.json比/user/*.json优先匹配。</p>
+</li>
+<li>
+<p>有 ** <em>通配符的优先级低于有</em> * 通配符的。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="method匹配">Method匹配</h3>
+<ol>
+<li>HTTP请求Method有GET、POST、PUT、DELETE等方式。HTTP支持的全部Method</li>
+<li>@RequestMapping注解提供了method参数指定请求的Method类型，包括RequestMethod.GET、RequestMethod.POST、RequestMethod.DELETE、RequestMethod.PUT等值，分别对应HTTP请求的Method</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/getData&#34;</span>,method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">GET</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> string <span style="color:#a6e22e">getData</span>(){
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol start="3">
+<li>Method匹配也可以使用@GetMapping、@PostMapping等注解代替.</li>
+</ol>
+<p>两种方式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> <span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/hello&#34;</span>,method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">GET</span>)
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/hello&#34;</span>)
+</span></span></code></pre></div><h3 id="3-参数传递">3. 参数传递</h3>
+<ol>
+<li>@RequestParam将请求参数绑定到控制器的方法参数上，接收的参数来自HTTP请求体或请求url的QueryString，当请求的参数名称与Controler的业务方法参数名称一致时,@RequestParam可以省略</li>
+<li>@PathVaraible:用来处理动态的URL，URL的值可以作为控制器中处理方法的参数</li>
+<li>@RequestBody接收的参数是来自requestBody中，即请求体。一般用于处理非 Content-Type: application/x-www-form-urlencoded编码格式的数据比如:<code>application/json</code>、<code>application/xml</code>等类型的数据</li>
+</ol>
+<p>例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloController</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//http://www.baidu.com/s/xx</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//本机域名：http://localhost:8080/hello</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//@GetMapping(&#34;/hello&#34;)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//http://localhost:8080/hello?nickname=Aloogy&amp;phone=123</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/hello&#34;</span>,method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">GET</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">hello</span>(String nickname,String phone) {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(phone);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;你好&#34;</span><span style="color:#f92672">+</span>nickname <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;世界&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20240416164442748.png" alt="image-20240416164442748"></p>
+<h3 id="4-apipost测试">4. apipost测试</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> <span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/postTest2&#34;</span>, method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">POST</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">postTest2</span>(String username,String password) {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;username:&#34;</span> <span style="color:#f92672">+</span> username);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;password:&#34;</span> <span style="color:#f92672">+</span> password);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Post请求&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p><img src="https://raw.githubusercontent.com/Thobian/typora-image/master/demo/202404/23/234822-84252.png" alt="image-20240416233706489"></p>
+<p><img src="https://raw.githubusercontent.com/Thobian/typora-image/master/demo/202404/23/234823-700391.png" alt="image-20240416233944422"></p>
+<p><img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20240416233718102.png" alt="image-20240416233718102"></p>
+<h3 id="5-控制类代码controller">5. 控制类代码(controller)：</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.example.demo.controller;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.example.demo.demos.web.User;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.web.bind.annotation.*;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ParamsController</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/getTest1&#34;</span>, method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">GET</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getTest1</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Get请求&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/getTest2&#34;</span>, method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">GET</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//http://localhost:8080/getTest2?nickname=zhangsan&amp;phone=123456</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getTest2</span>(String nickname, String phone) {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;nickname:&#34;</span> <span style="color:#f92672">+</span> nickname);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;phone:&#34;</span> <span style="color:#f92672">+</span> phone);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Get请求&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/getTest3&#34;</span>, method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">GET</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//http://localhost:8080/getTest2?nickname=zhangsan&amp;phone=123456</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//@RequestParam参数映射</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getTest3</span>(<span style="color:#a6e22e">@RequestParam</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;nickname&#34;</span>, required <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>) String nickname) {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;nickname:&#34;</span> <span style="color:#f92672">+</span> nickname);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Get请求&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/postTest1&#34;</span>, method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">POST</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">postTest1</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Post请求&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/postTest2&#34;</span>, method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">POST</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">postTest2</span>(String username,String password) {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;username:&#34;</span> <span style="color:#f92672">+</span> username);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;password:&#34;</span> <span style="color:#f92672">+</span> password);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Post请求&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/postTest3&#34;</span>, method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">POST</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">postTest2</span>(User user) {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(user);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Post请求&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/postTest4&#34;</span>, method <span style="color:#f92672">=</span> RequestMethod.<span style="color:#a6e22e">POST</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">postTest4</span>(<span style="color:#a6e22e">@RequestBody</span> User user){
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(user);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Post请求&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>   
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="6-实体类代码entity">6. 实体类代码（entity）</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.example.demo.entity;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//封装到实体类</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//把接收的参数放这里</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//属性的名称要一致</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String username;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String password;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getUsername</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> username;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setUsername</span>(String username) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">username</span> <span style="color:#f92672">=</span> username;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getPassword</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> password;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setPassword</span>(String password) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">password</span> <span style="color:#f92672">=</span> password;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">toString</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;User{&#34;</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;username=&#39;&#34;</span> <span style="color:#f92672">+</span> username <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\&#39;&#39;</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;, password=&#39;&#34;</span> <span style="color:#f92672">+</span> password <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\&#39;&#39;</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;}&#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="7-通配符请求">7. 通配符请求</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/test/**&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">test</span>(){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;通配符请求&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p><img src="https://raw.githubusercontent.com/Thobian/typora-image/master/demo/202404/23/234835-734084.png" alt="image-20240416235815434"></p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fspringboot%2bvue1%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=SpringBoot%2bVue1&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fspringboot%2bvue1%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fspringboot%2bvue1%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fspringboot%2bvue1%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fspringboot%2bvue1%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fspringboot%2bvue1%2f
+			&title=SpringBoot%2bVue1&summary=Spring%20boot%2bvue%e5%85%a8%e6%a0%88%e5%bc%80%e5%8f%91%5b1%5d%20Java%20EE%e4%bc%81%e4%b8%9a%e7%ba%a7%e6%a1%86%e6%9e%b6%ef%bc%9aSpringBoot%2bMyBatisPlus%ef%bc%88%e7%94%a8spring%20boot%e5%bc%80%e5%8f%91web%e5%ba%94%e7%94%a8%ef%bc%89%20web%e5%89%8d%e7%ab%af%e6%a0%b8%e5%bf%83%e6%a1%86%e6%9e%b6%ef%bc%9aVue%2bElementUI%ef%bc%88%e5%8f%af%e4%bb%a5%e5%ae%9e%e7%8e%b0%e5%89%8d%e5%90%8e%e7%ab%af%e5%88%86%e7%a6%bb%e5%bc%80%e5%8f%91%ef%bc%89%20%e5%85%ac%e5%85%b1%e4%ba%91%e9%83%a8%e7%bd%b2%ef%bc%9a%e5%89%8d%e5%90%8e%e7%ab%af%e9%a1%b9%e7%9b%ae%e9%9b%86%e6%88%90%e6%89%93%e5%8c%85%e4%b8%8e%e9%83%a8%e7%bd%b2%20web%e6%8a%80%e6%9c%af%e5%9f%ba%e7%a1%80%20%e5%b8%82%e9%9d%a2%e4%b8%8a%e7%9a%84%e8%bd%af%e4%bb%b6%e4%b8%bb%e8%a6%81%e5%88%86%e4%b8%ba%e4%b8%a4%e7%a7%8d%ef%bc%9a%0aBS%ef%bc%88Browser%2fSever%2c%e6%b5%8f%e8%a7%88%e5%99%a8%2f%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%9e%b6%e6%9e%84%e6%a8%a1%e5%bc%8f%ef%bc%89%3d%3d%e6%9b%b4%e7%81%ab%ef%bc%81%3d%3d%20%e5%9b%a0%e6%ad%a4%ef%bc%8cBrowser%2fServer%e6%a8%a1%e5%bc%8f%e5%bc%80%e5%a7%8b%e6%b5%81%e8%a1%8c%ef%bc%8c%e7%ae%80%e7%a7%b0BS%e6%9e%b6%e6%9e%84%ef%bc%8c%20%3d%3dB%2fS%e6%9e%b6%e6%9e%84%e7%9a%84%e4%b8%bb%e8%a6%81%e7%89%b9%e7%82%b9%e6%98%af%e5%88%86%e6%95%a3%e6%80%a7%e9%ab%98%e3%80%81%e7%bb%b4%e6%8a%a4%e6%96%b9%e4%be%bf%e3%80%81%e5%bc%80%e5%8f%91%e7%ae%80%e5%8d%95%e3%80%81%e5%85%b1%e4%ba%ab%e6%80%a7%e9%ab%98%e3%80%81%e6%80%bb%e6%8b%a5%e6%9c%89%e6%88%90%e6%9c%ac%e4%bd%8e%e3%80%82%3d%3d%20CS%ef%bc%88Client%2fServer%2c%e5%ae%a2%e6%88%b7%e7%ab%af%2f%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%9e%b6%e6%9e%84%e6%a8%a1%e5%bc%8f%ef%bc%89%20C%2fS%e6%9e%b6%e6%9e%84%e4%b8%bb%e8%a6%81%e7%89%b9%e7%82%b9%e6%98%af%e4%ba%a4%e4%ba%92%e6%80%a7%e5%bc%ba%ef%bc%8c%e5%85%b7%e6%9c%89%e5%ae%89%e5%85%a8%e8%ae%bf%e9%97%ae%e6%a8%a1%e5%bc%8f%ef%bc%8c%e7%bd%91%e7%bb%9c%e6%b5%81%e9%87%8f%e4%bd%8e%ef%bc%8c%e5%93%8d%e5%ba%94%e9%80%9f%e5%ba%a6%e5%bf%ab%e3%80%82%20%e5%ae%a2%e6%88%b7%e7%ab%af%e8%b4%9f%e8%b4%a3%e7%bb%9d%e5%a4%a7%e6%95%b0%e7%9a%84%e4%ba%8b%e6%83%85%e3%80%82%e5%9b%a0%e4%b8%ba%e5%ae%a2%e6%88%b7%e7%ab%af%e8%b4%9f%e8%b4%a3%e5%a4%a7%e5%a4%9a%e6%95%b0%e4%b8%9a%e5%8a%a1%e9%80%bb%e8%be%91%e5%92%8cUI%e6%bc%94%e7%a4%ba%ef%bc%8c%e6%89%80%e4%bb%a5%e4%b9%9f%e8%a2%ab%e7%a7%b0%e4%b8%ba%e8%83%96%e5%ae%a2%e6%88%b7%e7%ab%af%20%ef%bc%8cC%2fS%e7%bb%93%e6%9e%84%e7%9a%84%e8%bd%af%e4%bb%b6%e9%9c%80%e8%a6%81%e9%92%88%e5%af%b9%e4%b8%8d%e5%90%8c%e7%9a%84%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%bc%80%e5%8f%91%e4%b8%8d%e5%90%8c%e7%89%88%e6%9c%ac%e7%9a%84%e8%bd%af%e4%bb%b6%e3%80%82%20%e9%9a%8f%e7%9d%80%e4%ba%92%e8%81%94%e7%bd%91%e7%9a%84%e5%85%b4%e8%b5%b7%ef%bc%8cCS%e6%9e%b6%e6%9e%84%e4%b8%8d%e9%80%82%e5%90%88Web%ef%bc%8c%e6%9c%80%e5%a4%a7%e7%9a%84%e5%8e%9f%e5%9b%a0%e6%98%afWeb%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e7%9a%84%e4%bf%ae%e6%94%b9%e5%92%8c%e5%8d%87%e7%ba%a7%e9%9d%9e%e5%b8%b8%e8%bf%85%e9%80%9f%ef%bc%8c%e8%80%8cCS%e6%9e%b6%e6%9e%84%e9%9c%80%e8%a6%81%e6%af%8f%e4%b8%aa%e5%ae%a2%e6%88%b7%e7%ab%af%e9%80%90%e4%b8%aa%e5%8d%87%e7%ba%a7%e6%a1%8c%e9%9d%a2App%e3%80%82%20BS%e6%9e%b6%e6%9e%84%e7%9a%84%e5%8e%9f%e7%90%86%20%e5%9c%a8BS%e6%9e%b6%e6%9e%84%e4%b8%8b%ef%bc%8c%e5%ae%a2%e6%88%b7%e7%ab%af%e5%8f%aa%e9%9c%80%e8%a6%81%e6%b5%8f%e8%a7%88%e5%99%a8%ef%bc%8c%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e7%9a%84%e9%80%bb%e8%be%91%e5%92%8c%e6%95%b0%e6%8d%ae%e9%83%bd%e5%ad%98%e5%82%a8%e5%9c%a8%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%ab%af%e3%80%82%e6%b5%8f%e8%a7%88%e5%99%a8%e5%8f%aa%e9%9c%80%e8%a6%81%e8%af%b7%e6%b1%82%e6%9c%8d%e5%8a%a1%e5%99%a8%ef%bc%8c%e8%8e%b7%e5%8f%96Web%e9%a1%b5%e9%9d%a2%ef%bc%8c%e5%b9%b6%e6%8a%8aWeb%e9%a1%b5%e9%9d%a2%e5%b1%95%e7%a4%ba%e7%bb%99%e7%94%a8%e6%88%b7%e5%8d%b3%e5%8f%af%e3%80%82%0a%e5%90%8e%e7%ab%af%e5%bc%80%e5%8f%91%e6%8c%87%ef%bc%9aweb%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%bc%80%e5%8f%91%2b%e6%95%b0%e6%8d%ae%e5%ba%93%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%bc%80%e5%8f%91%0amaven%20maven%e6%98%af%e4%b8%80%e4%b8%aa%e9%a1%b9%e7%9b%ae%e7%ae%a1%e7%90%86%e5%b7%a5%e5%85%b7%ef%bc%8c%e5%8f%af%e4%bb%a5%e5%af%b9Java%e9%a1%b9%e7%9b%ae%e8%bf%9b%e8%a1%8c%e8%87%aa%e5%8a%a8%e5%8c%96%e4%be%9d%e8%b5%96%e7%ae%a1%e7%90%86%e5%92%8c%e8%87%aa%e5%8a%a8%e5%8c%96%e7%9a%84%e6%9e%84%e5%bb%ba%e3%80%82%0amaven%e7%9a%84%e5%8a%9f%e8%83%bd%20%e9%a1%b9%e7%9b%ae%e6%9e%84%e5%bb%ba%ef%bc%9a%e5%b8%ae%e6%88%91%e4%bb%ac%e8%87%aa%e5%8a%a8%e4%b8%8b%e8%bd%bd%e4%be%9d%e8%b5%96%ef%bc%88pom.xml%5b%e6%a0%b8%e5%bf%83%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%5d%ef%bc%89%ef%bc%8c%e6%8f%90%e4%be%9b%e6%a0%87%e5%87%86%e7%9a%84%e3%80%81%e8%b7%a8%e5%b9%b3%e5%8f%b0%e7%9a%84%e8%87%aa%e5%8a%a8%e5%8c%96%e6%9e%84%e5%bb%ba%e9%a1%b9%e7%9b%ae%e7%9a%84%e6%96%b9%e5%bc%8f%20%e4%be%9d%e8%b5%96%e7%ae%a1%e7%90%86%ef%bc%9a%e6%96%b9%e4%be%bf%e5%bf%ab%e6%8d%b7%e7%9a%84%e7%ae%a1%e7%90%86%e9%a1%b9%e7%9b%ae%e4%be%9d%e8%b5%96%e7%9a%84%e8%b5%84%e6%ba%90%ef%bc%88jar%e5%8c%85%ef%bc%89%ef%bc%8c%e9%81%bf%e5%85%8d%e8%b5%84%e6%ba%90%e9%97%b4%e7%9a%84%e7%89%88%e6%9c%ac%e5%86%b2%e7%aa%81%20%e7%bb%9f%e4%b8%80%e5%bc%80%e5%8f%91%e7%bb%93%e6%9e%9c%ef%bc%9a%e6%8f%90%e4%be%9b%e6%a0%87%e5%87%86%e7%9a%84%ef%bc%8c%e7%bb%9f%e4%b8%80%e7%9a%84%e9%a1%b9%e7%9b%ae%e5%bc%80%e5%8f%91%e7%bb%93%e6%9e%84%ef%bc%88Java%e4%bb%a3%e7%a0%81%e6%94%beJava%e7%9b%ae%e5%bd%95%ef%bc%8c%e6%b5%8b%e8%af%95%e6%94%betest%e7%9b%ae%e5%bd%95%ef%bc%8cwebapp%e6%94%beweb%e7%9a%84%e9%a1%b9%e7%9b%ae%ef%bc%89%20maven%e4%bb%93%e5%ba%93%20%e8%bf%90%e8%a1%8cmaven%e9%a1%b9%e7%9b%ae%e6%97%b6%ef%bc%8cmaven%e6%89%80%e9%9c%80%e8%a6%81%e7%9a%84%e4%bb%bb%e4%bd%95%e6%9e%84%e4%bb%b6%e9%83%bd%e6%98%af%e4%bb%8e%e6%9c%ac%e5%9c%b0%e4%bb%93%e5%ba%93%e8%8e%b7%e5%8f%96%ef%bc%8c%e5%a6%82%e6%9e%9c%e6%9c%ac%e5%9c%b0%e4%bb%93%e5%ba%93%e6%b2%a1%e6%9c%89%e7%9a%84%e8%af%9d%ef%bc%8c%e5%ae%83%e4%bc%9a%e5%b0%9d%e8%af%95%e4%bb%8e%e8%bf%9c%e7%a8%8b%e4%bb%93%e5%ba%93%e4%b8%8b%e8%bd%bd%e6%9e%84%e4%bb%b6%e8%87%b3%e6%9c%ac%e5%9c%b0%e4%bb%93%e5%ba%93%0aspringboot%e4%bb%8b%e7%bb%8d%ef%bc%88%e9%9c%80%e8%a6%81%e6%9c%89Java%e5%9f%ba%e7%a1%80%ef%bc%89%20Spring%20Boot%e6%98%af%e7%94%b1Pivotal%e5%9b%a2%e9%98%9f%e6%8f%90%e4%be%9b%e7%9a%84%e5%9f%ba%e4%ba%8eSpring%e7%9a%84%e5%85%a8%e6%96%b0%e6%a1%86%e6%9e%b6%ef%bc%8c%e6%97%a8%e5%9c%a8%e7%ae%80%e5%8c%96Spring%e5%ba%94%e7%94%a8%ef%bc%88%e6%9c%89%e5%be%88%e5%a4%9a%e4%b8%aapom%e6%96%87%e4%bb%b6%ef%bc%89%e7%9a%84%e5%88%9d%e5%a7%8b%e6%90%ad%e5%bb%ba%e5%92%8c%e5%bc%80%e5%8f%91%e8%bf%87%e7%a8%8b%e3%80%82%20Spring%20Boot%e6%98%af%e6%89%80%e6%9c%89%e5%9f%ba%e4%ba%8eSpring%e5%bc%80%e5%8f%91%e9%a1%b9%e7%9b%ae%e7%9a%84%e8%b5%b7%e7%82%b9%20Spring%20Boot%e5%b0%b1%e6%98%af%e5%b0%bd%e5%8f%af%e8%83%bd%e5%9c%b0%e7%ae%80%e5%8c%96%e5%ba%94%e7%94%a8%e5%bc%80%e5%8f%91%e7%9a%84%e9%97%a8%e6%a7%9b%ef%bc%8c%e8%ae%a9%e5%ba%94%e7%94%a8%e5%bc%80%e5%8f%91%e3%80%81%e6%b5%8b%e8%af%95%e3%80%81%e9%83%a8%e7%bd%b2%e5%8f%98%e5%be%97%e6%9b%b4%e5%8a%a0%e7%ae%80%e5%8d%95%e3%80%82%201.%20springboot%e7%89%b9%e7%82%b9%ef%bc%9a%20%e9%81%b5%e5%be%aa%e2%80%9c%e7%ba%a6%e5%ae%9a%e4%bc%98%e4%ba%8e%e9%85%8d%e7%bd%ae%e2%80%9d%e7%9a%84%e5%8e%9f%e5%88%99%ef%bc%8c%e5%8f%aa%e9%9c%80%e8%a6%81%e5%be%88%e5%b0%91%e7%9a%84%e9%85%8d%e7%bd%ae%e6%88%96%e4%bd%bf%e7%94%a8%e9%bb%98%e8%ae%a4%e7%9a%84%e9%85%8d%e7%bd%ae%e3%80%82%20%e8%83%bd%e5%a4%9f%e4%bd%bf%e7%94%a8%e5%86%85%e5%b5%8c%e7%9a%84Tomcat%e3%80%81Jetty%e6%9c%8d%e5%8a%a1%e5%99%a8%ef%bc%8c%e4%b8%8d%e9%9c%80%e8%a6%81%e9%83%a8%e7%bd%b2war%e6%96%87%e4%bb%b6%ef%bc%9b%ef%bc%88%e5%85%b7%e6%9c%89%e5%86%85%e5%b5%8c%e7%9a%84%e6%9c%8d%e5%8a%a1%e5%99%a8%ef%bc%89%20%e6%8f%90%e4%be%9b%e5%ae%9a%e5%88%b6%e5%8c%96%e7%9a%84%e5%90%af%e5%8a%a8%e5%99%a8Starters%ef%bc%8c%e7%ae%80%e5%8c%96Maven%e9%85%8d%e7%bd%ae%ef%bc%8c%ef%bc%8c%e4%b8%8d%e7%94%a8%e5%86%99%e8%bf%99%e4%b9%88%e5%a4%9a%e4%be%9d%e8%b5%96%e9%85%8d%e7%bd%ae%ef%bc%8c%e5%bc%80%e7%ae%b1%e5%8d%b3%e7%94%a8%e3%80%82%20%3d%3d%e7%ba%afJava%e9%85%8d%e7%bd%ae%ef%bc%8c%e6%b2%a1%e6%9c%89%e4%bb%a3%e7%a0%81%e7%94%9f%e6%88%90%ef%bc%8c%e4%b9%9f%e4%b8%8d%e9%9c%80%e8%a6%81XML%e9%85%8d%e7%bd%ae%e3%80%82%3d%3d%20%e6%8f%90%e4%be%9b%e4%ba%86%e7%94%9f%e4%ba%a7%e7%ba%a7%e7%9a%84%e6%9c%8d%e5%8a%a1%e7%9b%91%e6%8e%a7%e6%96%b9%e6%a1%88%ef%bc%8c%e5%a6%82%e5%ae%89%e5%85%a8%e7%9b%91%e6%8e%a7%e3%80%81%e5%ba%94%e7%94%a8%e7%9b%91%e6%8e%a7%e3%80%81%e5%81%a5%e5%ba%b7%e6%a3%80%e6%b5%8b%e7%ad%89%e3%80%82%202.%20%e5%88%9b%e5%bb%ba%e9%a1%b9%e7%9b%ae%e2%80%94%e2%80%94%e2%80%94%e2%80%94%e5%a1%ab%e5%86%99%e9%a1%b9%e7%9b%ae%e4%bf%a1%e6%81%af%20Group%3a%e5%a1%ab%e5%85%a5%e5%85%ac%e5%8f%b8%e5%9f%9f%e5%90%8d%0aArtifact%3a%e9%a1%b9%e7%9b%ae%e5%90%8d%e7%a7%b0%0apackage%20com.example.demo.controller%3b%20import%20org.springframework.web.bind.annotation.GetMapping%3b%20import%20org.springframework.web.bind.annotation.RestController%3b%20%40RestController%2f%2f%e6%8e%a5%e5%8f%97%e5%ae%a2%e6%88%b7%e7%ab%af%e4%bf%a1%e6%81%af%e5%b9%b6%e8%bf%94%e5%9b%9e%e4%bf%a1%e6%81%af%20public%20class%20HelloController%20%7b%20%2f%2fhttp%3a%2f%2fwww.baidu.com%2fs%2fxx%20%2f%2f%e6%9c%ac%e6%9c%ba%e5%9f%9f%e5%90%8d%ef%bc%9ahttp%3a%2f%2flocalhost%3a8080%2fhello%20%40GetMapping%28%26%2334%3b%2fhello%26%2334%3b%29%20public%20String%20hello%28%29%20%7b%20return%20%26%2334%3bHello%20World%21%26%2334%3b%3b%20%7d%20%7d%20%2f%2f%e6%8e%a7%e5%88%b6%e5%99%a8%203.&source=http%3a%2f%2flocalhost%3a1313%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=SpringBoot%2bVue1&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fspringboot%2bvue1%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2021 <a href="https://rafed.github.io/" target="_blank">DevRa</a>.
+        <a href="https://github.com/rafed/BlogRa/" target="_blank">BlogRa</a> theme for
+        <a href="https://github.com/gohugoio/hugo/" target="_blank">
+            Hugo
+        </a>. 
+        
+    </p>
+</footer>
+
+</body>
+
+</html>
